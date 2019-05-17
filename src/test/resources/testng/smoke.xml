@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Demo Suite" verbose="1" parallel="methods" thread-count="5" configfailurepolicy="continue">
+  <groups>
+    <run>
+      <include name="config" />
+      <include name="p0" />
+      <exclude name="quarantine" />
+    </run>
+  </groups>
+  <test name="All Tests">
+    <classes>
+      <class name="com.groupon.demo.IntegrationTest"/>
+    </classes>
+  </test>
+</suite>

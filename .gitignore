@@ -1,0 +1,14 @@
+bin/
+target/
+test-output/
+screenshots/
+logs/
+.idea
+.classpath
+.project
+.settings
+.factorypath
+*.iml
+*.orig
+*/*.jpg
+*.log

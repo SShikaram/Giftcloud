@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+
+  <groupId>com.groupon.mostaf</groupId>
+  <artifactId>mostaf-demo-runner</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <name>Mostaf Demo</name>
+  <url>https://github.groupondev.com/TestEngineering/MostafDemo</url>
+
+  <properties>
+    <project.build.targetJdk>1.8</project.build.targetJdk>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.inputEncoding>UTF-8</project.reporting.inputEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <test.groupId>com.groupon.mostaf</test.groupId>
+    <test.artifactId>mostaf-demo</test.artifactId>
+
+    <test.environment>staging</test.environment>
+    <test.suite>smoke</test.suite>
+    <test.client>chrome</test.client>
+  </properties>
+
+  <repositories>
+    <repository>
+      <releases />
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>public</id>
+      <name>Public Repositories</name>
+      <url>http://nexus-dev/content/groups/public</url>
+    </repository>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots />
+      <id>public-snapshots</id>
+      <name>Public Snapshots Repositories</name>
+      <url>http://nexus-dev/content/groups/public-snapshots</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>${test.groupId}</groupId>
+      <artifactId>${test.artifactId}</artifactId>
+      <version>${test.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${test.groupId}</groupId>
+      <artifactId>${test.artifactId}</artifactId>
+      <version>${test.version}</version>
+      <classifier>tests</classifier>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>2.17</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <reportsDirectory>${project.build.directory}/${test.suite}/failsafe-reports</reportsDirectory>
+          <suiteXmlFiles>
+            <suiteXmlFile>../src/test/resources/testng/${test.suite}.xml</suiteXmlFile>
+          </suiteXmlFiles>
+          <systemPropertyVariables>
+            <environment>${environment}</environment>
+            <webdriver.browser>${test.browser}</webdriver.browser>
+            <screenshot.location>${project.build.directory}/${test.suite}/failsafe-reports/failed-screenshots</screenshot.location>
+            <screenshot.http_link>${project.build.directory}/artifact/target/failsafe-reports/failed-screenshots</screenshot.http_link>
+          </systemPropertyVariables>
+          <printSummary>true</printSummary>
+          <dependenciesToScan>
+            <dependency>${test.groupId}:${test.artifactId}</dependency>
+          </dependenciesToScan>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

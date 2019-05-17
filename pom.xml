@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.groupon.mostaf</groupId>
+    <artifactId>mostaf-demo</artifactId>
+    <version>0.0.2-SNAPSHOT</version>
+
+    <parent>
+        <groupId>com.groupon.mostest</groupId>
+        <artifactId>base-pom</artifactId>
+        <version>2.0.1.279</version>
+    </parent>
+
+    <name>demo</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.targetJdk>1.8</project.build.targetJdk>
+
+        <mostest.plugin.checkstyle.skip>false</mostest.plugin.checkstyle.skip>
+        <mostest.plugin.findbugs.skip>false</mostest.plugin.findbugs.skip>
+        <mostest.plugin.pmd.skip>false</mostest.plugin.pmd.skip>
+
+        <mostest.plugin.checkstyle.failOnError>false</mostest.plugin.checkstyle.failOnError>
+        <mostest.plugin.findbugs.failOnError>false</mostest.plugin.findbugs.failOnError>
+        <mostest.plugin.pmd.failOnError>false</mostest.plugin.pmd.failOnError>
+
+        <environment>staging</environment>
+        <test.suite>demo</test.suite>
+        <mostaf-version>2.2.23.212</mostaf-version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.groupon.mostest</groupId>
+            <artifactId>mostaf-webui</artifactId>
+            <version>${mostaf-version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <reportsDirectory>${project.build.directory}/${test.suite}/failsafe-reports</reportsDirectory>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/resources/testng/${test.suite}.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                    <systemPropertyVariables>
+                        <screenshot.location>${project.build.directory}/${test.suite}/failsafe-reports/failed-screenshots</screenshot.location>
+                        <screenshot.http_link>${project.build.directory}/artifact/target/failsafe-reports/failed-screenshots</screenshot.http_link>
+                    </systemPropertyVariables>
+                    <printSummary>true</printSummary>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
