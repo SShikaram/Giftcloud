@@ -17,12 +17,12 @@ import com.groupon.mostest.mostaf.webui.page.WebUiBasePage;
  *
  * @author edelarosaraymun
  */
-public abstract class DemoUiBasePage
-                extends WebUiBasePage<IUiITBase, IUiConfig, IUiSession> implements IDemoUiBasePage {
+public abstract class GiftcloudUiBasePage
+                extends WebUiBasePage<IUiITBase, IUiConfig, IUiSession> implements IGiftcloudUiBasePage {
 
     protected static final Logger LOG = LogManager.getLogger();
 
-    public DemoUiBasePage(WebDriver driver, IUiITBase test) {
+    public GiftcloudUiBasePage(WebDriver driver, IUiITBase test) {
         super(driver, test);
     }
 

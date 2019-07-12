@@ -12,7 +12,7 @@ import com.groupon.demo.ui.test.IUiITBase;
  *
  * @author edelarosaraymun
  */
-public class LandingPage extends DemoUiBasePage {
+public class LandingPage extends GiftcloudUiBasePage {
     @FindBy(xpath = "//div[@id='ls-header-signin-flyout-container']")
     private WebElement loginDiv;
 

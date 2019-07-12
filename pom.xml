@@ -4,22 +4,23 @@
 >
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.groupon.mostaf</groupId>
-    <artifactId>mostaf-demo</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <groupId>com.groupon.Coupons</groupId>
+    <artifactId>Giftcloud</artifactId>
+    <version>${semver}.${revision}</version>
 
     <parent>
         <groupId>com.groupon.mostest</groupId>
         <artifactId>base-pom</artifactId>
-        <version>2.0.1.279</version>
+        <version>2.1.1.83</version>
     </parent>
 
-    <name>demo</name>
-    <url>http://maven.apache.org</url>
+    <name>Giftcloud</name>
+    <url>https://github.groupondev.com/Coupons/Giftcloud</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.targetJdk>1.8</project.build.targetJdk>
+        <semver>1.0.0</semver>
 
         <mostest.plugin.checkstyle.skip>false</mostest.plugin.checkstyle.skip>
         <mostest.plugin.findbugs.skip>false</mostest.plugin.findbugs.skip>
@@ -31,20 +32,44 @@
 
         <environment>staging</environment>
         <test.suite>demo</test.suite>
-        <mostaf-version>2.3.24.234</mostaf-version>
+        <mostaf-version>3.3.3.388</mostaf-version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.groupon.mostest</groupId>
-            <artifactId>mostaf-webui</artifactId>
-            <version>${mostaf-version}</version>
-        </dependency>
-    </dependencies>
-
+    <repositories>
+        <repository>
+            <releases/>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>public</id>
+            <name>Public Repositories</name>
+            <url>http://nexus-dev/content/groups/public</url>
+        </repository>
+        <repository>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots/>
+            <id>public-snapshots</id>
+            <name>Public Snapshots Repositories</name>
+            <url>http://nexus-dev/content/groups/public-snapshots</url>
+        </repository>
+    </repositories>
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <configuration>
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>com.groupon.mostest</groupId>
+                            <artifactId>mostaf-aspectj</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -57,17 +82,194 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <reportsDirectory>${project.build.directory}/${test.suite}/failsafe-reports</reportsDirectory>
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/testng/${test.suite}.xml</suiteXmlFile>
                     </suiteXmlFiles>
                     <systemPropertyVariables>
-                        <screenshot.location>${project.build.directory}/${test.suite}/failsafe-reports/failed-screenshots</screenshot.location>
-                        <screenshot.http_link>${project.build.directory}/artifact/target/failsafe-reports/failed-screenshots</screenshot.http_link>
+                        <environment>${environment}</environment>
+                        <webdriver.browser>${test.browser}</webdriver.browser>
+                        <screenshot.location>${project.build.directory}/failsafe-reports/failed-screenshots
+                        </screenshot.location>
+                        <screenshot.http_link>
+                            ${project.build.directory}/artifact/target/failsafe-reports/failed-screenshots
+                        </screenshot.http_link>
                     </systemPropertyVariables>
                     <printSummary>true</printSummary>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>buildNumber</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>epkgBuildNumber</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>shaded</shadedClassifierName>
+                            <shadeTestJar>true</shadeTestJar>
+
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>org.testng.TestNG</mainClass>
+                                </transformer>
+                            </transformers>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <imageName>${docker.repo}/${docker.org}/${docker.image}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                    </imageTags>
+                    <buildArgs>
+                        <test_group_id>${project.groupId}</test_group_id>
+                        <test_artifact_id>${project.artifactId}</test_artifact_id>
+                        <test_version>${project.version}</test_version>
+                    </buildArgs>
+                    <resources>
+                        <resource>
+                            <targetPath>/tests</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <includes>
+                                <include>${project.artifactId}-${project.version}-shaded.jar</include>
+                                <include>${project.artifactId}-${project.version}-shaded-tests.jar</include>
+                            </includes>
+                        </resource>
+                        <resource>
+                            <targetPath>/tests</targetPath>
+                            <directory>${project.basedir}/src/main/docker</directory>
+                            <includes>
+                                <include>getSuiteName.sh</include>
+                            </includes>
+                        </resource>
+                        <resource>
+                            <targetPath>/tests</targetPath>
+                            <directory>${project.basedir}/src/test/resources</directory>
+                            <includes>
+                                <include>testng/*.xml</include>
+                            </includes>
+                        </resource>
+                    </resources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>push-image</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+    <dependencies>
+        <dependency>
+            <groupId>com.groupon.mostest</groupId>
+            <artifactId>mostaf-aspectj</artifactId>
+            <version>${mostaf-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.groupon.mostest</groupId>
+            <artifactId>mostaf-config</artifactId>
+            <version>${mostaf-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.groupon.mostest</groupId>
+            <artifactId>mostaf-reporting</artifactId>
+            <version>${mostaf-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.groupon.mostest</groupId>
+            <artifactId>mostaf-webui</artifactId>
+            <version>${mostaf-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.groupon.mostest</groupId>
+            <artifactId>mostaf-rest</artifactId>
+            <version>${mostaf-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.groupon.mostest</groupId>
+            <artifactId>mostaf-rest-bfm</artifactId>
+            <version>${mostaf-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.groupon.mostest</groupId>
+            <artifactId>mostaf-rest-gapi</artifactId>
+            <version>${mostaf-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.groupon.mostest</groupId>
+            <artifactId>mostaf-util</artifactId>
+            <version>${mostaf-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>13.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>jaxrs-api</artifactId>
+        </dependency>
+    </dependencies>
 </project>

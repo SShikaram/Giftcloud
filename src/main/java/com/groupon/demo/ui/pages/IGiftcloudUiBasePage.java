@@ -8,8 +8,8 @@ import com.groupon.mostest.mostaf.webui.page.IWebUiPage;
 /**
  * Base interface for all page objects
  *
- * @see DemoUiBasePage
+ * @see GiftcloudUiBasePage
  * @author edelarosaraymun
  */
-public interface IDemoUiBasePage extends IWebUiPage<IUiITBase, IUiConfig, IUiSession> {
+public interface IGiftcloudUiBasePage extends IWebUiPage<IUiITBase, IUiConfig, IUiSession> {
 }

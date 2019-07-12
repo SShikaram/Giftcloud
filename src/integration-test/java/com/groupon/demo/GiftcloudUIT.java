@@ -10,7 +10,6 @@ import com.groupon.demo.ui.test.IUiConfig;
 import com.groupon.demo.ui.test.IUiITBase;
 import com.groupon.demo.ui.test.IUiSession;
 import com.groupon.demo.ui.test.UiITBase;
-import com.groupon.demo.util.UserCredentialsProvider;
 import com.groupon.mostest.mostaf.config.models.EnvironmentType;
 import com.groupon.mostest.mostaf.reporting.models.TestGroup;
 import com.groupon.mostest.mostaf.rest.gapi.dto.UserCredentials;
@@ -37,19 +36,7 @@ public class IntegrationTest extends UiITBase {
     @Test(groups = TestGroup.P0,
                     description = "Demo Test")
     public void test() {
-        DealPage dealPage = new DealPage(getDriver(), this);
-        dealPage.openNewUrl(getConfig().getDealId());
-        dealPage.hidePopup();
-        dealPage.clickBuyButton();
 
-        GrouponLoginPage<IUiITBase, IUiConfig, IUiSession> loginPage = null;
-        loginPage = new GrouponLoginPage<IUiITBase, IUiConfig, IUiSession>(getDriver(), this);
-        loginPage.verify();
-        loginPage.submitCredentials(getSession().getUserCredentials());
-
-
-        Assert.assertEquals(getDriver().getTitle(),
-                            "Your Purchase");
 
     }
 

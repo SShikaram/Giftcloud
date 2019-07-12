@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author edelarosaraymun
  */
-public class DealPage extends DemoUiBasePage {
+public class DealPage extends GiftcloudUiBasePage {
 
     private final String STARS_LOCATOR = ".//span[contains(@class,'icon-star-filled')]";
 
