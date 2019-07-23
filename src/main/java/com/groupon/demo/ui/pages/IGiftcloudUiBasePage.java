@@ -1,8 +1,8 @@
 package com.groupon.demo.ui.pages;
 
-import com.groupon.demo.ui.test.IUiConfig;
-import com.groupon.demo.ui.test.IUiITBase;
-import com.groupon.demo.ui.test.IUiSession;
+import com.groupon.demo.ui.test.IGiftcloudUiConfig;
+import com.groupon.demo.ui.test.IGiftcloudUiITBase;
+import com.groupon.demo.ui.test.IGiftcloudUiSession;
 import com.groupon.mostest.mostaf.webui.page.IWebUiPage;
 
 /**
@@ -11,5 +11,5 @@ import com.groupon.mostest.mostaf.webui.page.IWebUiPage;
  * @see GiftcloudUiBasePage
  * @author edelarosaraymun
  */
-public interface IGiftcloudUiBasePage extends IWebUiPage<IUiITBase, IUiConfig, IUiSession> {
+public interface IGiftcloudUiBasePage extends IWebUiPage<IGiftcloudUiITBase, IGiftcloudUiConfig, IGiftcloudUiSession> {
 }

@@ -5,9 +5,9 @@ import com.groupon.mostest.mostaf.webui.test.IGrouponUiITSession;
 /**
  * Defines the basic functionality of the Session on demo project
  *
- * @see UiSession
+ * @see GiftcloudUiSession
  * @author edelarosaraymun
  */
-public interface IUiSession extends IGrouponUiITSession {
+public interface IGiftcloudUiSession extends IGrouponUiITSession {
 
 }

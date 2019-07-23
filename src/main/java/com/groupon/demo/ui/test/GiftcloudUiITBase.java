@@ -12,16 +12,16 @@ import com.groupon.mostest.mostaf.webui.test.WebUiITBase;
  * @author edelarosaraymun
  */
 @Listeners({TestActionLogListener.class, UiTestFailureListener.class})
-public class UiITBase extends WebUiITBase<IUiConfig, IUiSession> implements IUiITBase {
+public class GiftcloudUiITBase extends WebUiITBase<IGiftcloudUiConfig, IGiftcloudUiSession> implements IGiftcloudUiITBase {
 
     @Override
-    protected IUiConfig fetchConfig() {
-        return UiConfig.getInstance();
+    protected IGiftcloudUiConfig fetchConfig() {
+        return GiftcloudUiConfig.getInstance();
     }
 
     @Override
-    protected IUiSession createSession() {
-        return new UiSession();
+    protected IGiftcloudUiSession createSession() {
+        return new GiftcloudUiSession();
     }
 
 }

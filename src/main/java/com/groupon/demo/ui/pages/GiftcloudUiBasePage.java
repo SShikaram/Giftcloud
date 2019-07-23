@@ -6,9 +6,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import com.groupon.demo.ui.test.IUiConfig;
-import com.groupon.demo.ui.test.IUiITBase;
-import com.groupon.demo.ui.test.IUiSession;
+import com.groupon.demo.ui.test.IGiftcloudUiConfig;
+import com.groupon.demo.ui.test.IGiftcloudUiITBase;
+import com.groupon.demo.ui.test.IGiftcloudUiSession;
 import com.groupon.mostest.mostaf.aspectj.TestAction;
 import com.groupon.mostest.mostaf.webui.page.WebUiBasePage;
 
@@ -18,11 +18,11 @@ import com.groupon.mostest.mostaf.webui.page.WebUiBasePage;
  * @author edelarosaraymun
  */
 public abstract class GiftcloudUiBasePage
-                extends WebUiBasePage<IUiITBase, IUiConfig, IUiSession> implements IGiftcloudUiBasePage {
+                extends WebUiBasePage<IGiftcloudUiITBase, IGiftcloudUiConfig, IGiftcloudUiSession> implements IGiftcloudUiBasePage {
 
     protected static final Logger LOG = LogManager.getLogger();
 
-    public GiftcloudUiBasePage(WebDriver driver, IUiITBase test) {
+    public GiftcloudUiBasePage(WebDriver driver, IGiftcloudUiITBase test) {
         super(driver, test);
     }
 

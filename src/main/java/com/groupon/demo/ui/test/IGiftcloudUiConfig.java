@@ -8,10 +8,10 @@ import com.groupon.mostest.mostaf.webui.config.IWebUiITConfig;
  *
  * @author edelarosaraymun
  */
-public interface IUiConfig extends IWebUiITConfig {
+public interface IGiftcloudUiConfig extends IWebUiITConfig {
     String getGapiUrl();
 
-    String getUgcUrl();
+    String getAdminUrl();
 
     String getDealId();
 

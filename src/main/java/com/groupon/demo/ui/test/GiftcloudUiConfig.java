@@ -13,7 +13,7 @@ import com.groupon.mostest.mostaf.webui.config.WebUiITConfig;
  *
  * @author edelarosaraymun
  */
-public final class UiConfig extends WebUiITConfig implements IUiConfig {
+public final class GiftcloudUiConfig extends WebUiITConfig implements IGiftcloudUiConfig {
     public static final String      TEST_USER_PREFIX = "demo";
     public static final String      PROJECT_NAME     = "demo";
 
@@ -21,7 +21,7 @@ public final class UiConfig extends WebUiITConfig implements IUiConfig {
     public static final CountryType COUNTRY          = CountryType.US;
     public static final BrandType   BRAND            = BrandType.GROUPON;
 
-    private static final UiConfig   INSTANCE         = new UiConfig();
+    private static final GiftcloudUiConfig INSTANCE         = new GiftcloudUiConfig();
     private static final Logger     LOG              = LogManager.getLogger();
 
     private final String            clientId;
@@ -30,22 +30,22 @@ public final class UiConfig extends WebUiITConfig implements IUiConfig {
     private final String            artDealId;
     private final String            artDealUuid;
     private final String            artMerchanId;
-    private final String            ugcUrl;
+    private final String            adminUrl;
 
     private boolean                 isDeviceMobile   = false;
 
 
-    private UiConfig() {
+    private GiftcloudUiConfig() {
         clientId = getValue("clientId");
         dealId = getValue("dealId");
         gapiUrl = getValue("gapiUrl");
         artDealId = getValue("artDealId");
         artDealUuid = getValue("artDealUuid");
         artMerchanId = getValue("artMerchanId");
-        ugcUrl = getValue("ugcUrl");
+        adminUrl = getValue("adminUrl");
     }
 
-    public static IUiConfig getInstance() {
+    public static IGiftcloudUiConfig getInstance() {
         return INSTANCE;
     }
 
@@ -67,6 +67,26 @@ public final class UiConfig extends WebUiITConfig implements IUiConfig {
     @Override
     public String getUserEmailAccountPrefix() {
         return TEST_USER_PREFIX;
+    }
+
+    @Override
+    public String getJiraProjectName() {
+        return null;
+    }
+
+    @Override
+    public String getOktaUsername() {
+        return null;
+    }
+
+    @Override
+    public String getJiraComponent() {
+        return null;
+    }
+
+    @Override
+    public String getJiraEpicIssue() {
+        return null;
     }
 
     @Override
@@ -95,8 +115,8 @@ public final class UiConfig extends WebUiITConfig implements IUiConfig {
     }
 
     @Override
-    public String getUgcUrl() {
-        return ugcUrl;
+    public String getAdminUrl() {
+        return adminUrl;
     }
 
 }

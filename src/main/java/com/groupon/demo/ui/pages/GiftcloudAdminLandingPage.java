@@ -5,14 +5,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
-import com.groupon.demo.ui.test.IUiITBase;
+import com.groupon.demo.ui.test.IGiftcloudUiITBase;
 
 /**
  * Landing page base page object
  *
  * @author edelarosaraymun
  */
-public class LandingPage extends GiftcloudUiBasePage {
+public class GiftcloudAdminLandingPage extends GiftcloudUiBasePage {
     @FindBy(xpath = "//div[@id='ls-header-signin-flyout-container']")
     private WebElement loginDiv;
 
@@ -28,7 +28,7 @@ public class LandingPage extends GiftcloudUiBasePage {
     @FindBy(xpath = "//a[@id='user-name']//span")
     private WebElement loginUsername;
 
-    public LandingPage(WebDriver driver, IUiITBase test) {
+    public GiftcloudAdminLandingPage(WebDriver driver, IGiftcloudUiITBase test) {
         super(driver, test);
     }
 
@@ -59,5 +59,7 @@ public class LandingPage extends GiftcloudUiBasePage {
 
         builder = new Actions(getDriver());
         builder.moveToElement(loginDiv).click(loginButton).perform();
+        loginButton.click();
+
     }
 }

@@ -20,7 +20,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.targetJdk>1.8</project.build.targetJdk>
-        <semver>1.0.0</semver>
+        <semver>1.0.1</semver>
 
         <mostest.plugin.checkstyle.skip>false</mostest.plugin.checkstyle.skip>
         <mostest.plugin.findbugs.skip>false</mostest.plugin.findbugs.skip>
@@ -31,8 +31,9 @@
         <mostest.plugin.pmd.failOnError>false</mostest.plugin.pmd.failOnError>
 
         <environment>staging</environment>
-        <test.suite>demo</test.suite>
-        <mostaf-version>3.3.3.388</mostaf-version>
+        <test.suite>smoke</test.suite>
+        <test.browser>chrome</test.browser>
+        <mostaf-version>3.3.4.421</mostaf-version>
     </properties>
 
     <repositories>
